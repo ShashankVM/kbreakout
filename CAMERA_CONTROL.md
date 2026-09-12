@@ -8,10 +8,10 @@ and otherwise uses the system's default camera.
 ## Physical setup
 
 1. Mount the camera above the wooden table with the whole movement area visible.
-2. Attach a matte `DICT_4X4_50` marker with ID `0` to the smartphone cover.
+2. Attach a matte `DICT_4X4_50` marker with ID `0` to the paddle.
    The printed black marker should be 50 mm square with at least 10 mm of white
    margin on every side.
-3. Move the phone left and right. The paddle follows the marker centre with light smoothing
+3. Move the paddle left and right on the table. The paddle follows the marker centre with light smoothing
    to reduce jitter. Keyboard and mouse controls continue to work.
 
 If the paddle moves in the opposite direction, launch with:
