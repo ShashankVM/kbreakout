@@ -20,6 +20,7 @@ Item {
     property bool paused: false
     property bool gameOver: false
     property bool gameWon: false
+    property real cameraPosition: -1
     readonly property Item jailItem: bgOverlay
     readonly property bool ballMoving: !paused && fireBallMessage.opacity !== 1
 
@@ -224,6 +225,13 @@ Item {
 
     function fire() {
         Logic.fireBall();
+    }
+
+    onCameraPositionChanged: {
+        if (cameraPosition < 0) return;
+        if (paused || bar.direction != 0) return;
+        var availableWidth = (bgOverlay.width - bar.width) / m_scale;
+        bar.moveTo(cameraPosition * Math.max(0, availableWidth));
     }
 
     function cheatAddLife() {

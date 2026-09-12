@@ -11,6 +11,7 @@
 #include <QQuickWidget>
 
 class KGameThemeProvider;
+class CameraController;
 
 class CanvasWidget : public QQuickWidget
 {
@@ -58,6 +59,7 @@ private:
     bool m_rightPressed;
     bool m_leftPressed;
     KGameThemeProvider *m_provider;
+    CameraController *m_cameraController;
 };
 
 #endif //CANVASWIDGET_H

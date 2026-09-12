@@ -31,6 +31,7 @@ find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Qml
     Quick
     QuickWidgets
+    Multimedia
 )
 find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons 
@@ -47,6 +48,7 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
 )
 
 find_package(KDEGames6 6.0.0 REQUIRED)
+find_package(OpenCV 4.7 REQUIRED COMPONENTS core imgproc objdetect)
 
 ecm_set_disabled_deprecation_versions(
     QT 6.10.0

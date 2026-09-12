@@ -5,6 +5,7 @@
 */
 
 #include "canvaswidget.h"
+#include "cameracontroller.h"
 
 // own
 #include "globals.h"
@@ -24,11 +25,12 @@
 #include <QGraphicsObject>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <QStandardPaths>
+
 
 CanvasWidget::CanvasWidget(QWidget *parent) :
     QQuickWidget(parent),
-    m_provider(new KGameThemeProvider)
+    m_provider(new KGameThemeProvider),
+    m_cameraController(new CameraController(this))
 {
     QQmlEngine *engine = this->engine();
 
@@ -43,12 +45,10 @@ CanvasWidget::CanvasWidget(QWidget *parent) :
 
     m_provider->discoverThemes(QStringLiteral("themes"));
     m_provider->setDeclarativeEngine(QStringLiteral("themeProvider"), engine);
-    QString path = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("qml/main.qml"));
 
-    qCDebug(KBREAKOUT_General) << "QtQuick QML file: " << path;
-
-    setSource(QUrl::fromLocalFile(path));
-
+    const QUrl qmlSource(QStringLiteral("qrc:/qml/main.qml"));
+    qCDebug(KBREAKOUT_General) << "QtQuick QML file: " << qmlSource;
+    setSource(qmlSource);
     // forward signals from QML
     connect(rootObject(), SIGNAL(levelComplete()), this, SIGNAL(levelComplete()));
     connect(rootObject(), SIGNAL(gameEnded(int,int,int)), this, SIGNAL(gameEnded(int,int,int)));
@@ -56,6 +56,15 @@ CanvasWidget::CanvasWidget(QWidget *parent) :
 
     // for handling mouse cursor
     connect(rootObject(), SIGNAL(ballMovingChanged()), this, SLOT(updateCursor()));
+
+    connect(m_cameraController, &CameraController::positionChanged, this, [this](qreal position) {
+        rootObject()->setProperty("cameraPosition", position);
+    });
+    
+    connect(m_cameraController, &CameraController::statusChanged, this, [](const QString &status) {
+        qCInfo(KBREAKOUT_General) << "Camera control:" << status;
+    });
+    m_cameraController->start();
 }
 
 CanvasWidget::~CanvasWidget()

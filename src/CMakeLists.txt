@@ -9,6 +9,7 @@ target_sources(kbreakout PRIVATE
     main.cpp
     mainwindow.cpp mainwindow.h
     canvaswidget.cpp canvaswidget.h
+    cameracontroller.cpp cameracontroller.h
     gameengine.cpp gameengine.h
     levelloader.cpp levelloader.h
 
@@ -39,8 +40,12 @@ target_link_libraries(kbreakout
     KF6::IconThemes
     KF6::I18n
     Qt6::QuickWidgets
+    Qt6::Multimedia
     Qt6::Xml
+    ${OpenCV_LIBS}
 )
+
+target_include_directories(kbreakout PRIVATE ${OpenCV_INCLUDE_DIRS})
 
 if(TARGET KF6::I18nQml)
     target_link_libraries(kbreakout KF6::I18nQml)
