@@ -230,8 +230,11 @@ Item {
     onCameraPositionChanged: {
         if (cameraPosition < 0) return;
         if (paused || bar.direction != 0) return;
-        var availableWidth = (bgOverlay.width - bar.width) / m_scale;
-        bar.moveTo(cameraPosition * Math.max(0, availableWidth));
+
+        var availableWidth = bgOverlay.width;
+        var barX = (cameraPosition * availableWidth);
+        if (barX < availableWidth/2) barX = barX - bar.width;
+        bar.moveTo(barX/m_scale);
     }
 
     function cheatAddLife() {

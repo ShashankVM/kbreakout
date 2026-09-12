@@ -34,3 +34,20 @@ the `DICT_4X4_50` dictionary controls the paddle, so shadows, wood grain, and
 unrelated dark objects are ignored.
 
 OpenCV 4.7 or newer, including the `objdetect` module, is required at build time.
+
+
+Case 1:
+------------------------
+With:
+var availableWidth = bgOverlay.width;
+var barX = (cameraPosition * availableWidth);
+bar.moveTo(barX/m_scale);
+
+Results:
+1. Able to reach right corner
+2. Approx bar.width gap for left corner
+
+--------------------------
+
+barCenter = bar.x + bar.width / 2
+
