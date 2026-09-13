@@ -51,3 +51,17 @@ Results:
 
 barCenter = bar.x + bar.width / 2
 
+Case 2:
+-----------------------
+With:
+ if (barX < availableWidth/2) barX = barX - bar.width;
+
+Results:
+1. Able to reach both corners
+2. Not smooth
+
+Suggestion: only adjust it at the left corner, not from the middle
+
+TODO:
+1. Why are we using QueuedConnection? Can we use DirectConnection?
+2. Does our app run on multiple processors and take advantage of Quad Core CPU?

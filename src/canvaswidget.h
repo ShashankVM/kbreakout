@@ -12,6 +12,7 @@
 
 class KGameThemeProvider;
 class CameraController;
+class ArduinoBridge;
 
 class CanvasWidget : public QQuickWidget
 {
@@ -31,6 +32,8 @@ Q_SIGNALS:
     void mousePressed();
 
 public Q_SLOTS:
+    bool connectArduinoBridge();
+    bool notify(const QString &method, int argument);
     void fire();
     void cheatSkipLevel();
     void cheatAddLife();
@@ -60,6 +63,7 @@ private:
     bool m_leftPressed;
     KGameThemeProvider *m_provider;
     CameraController *m_cameraController;
+    ArduinoBridge *m_arduinoBridge;
 };
 
 #endif //CANVASWIDGET_H

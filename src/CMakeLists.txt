@@ -9,6 +9,7 @@ target_sources(kbreakout PRIVATE
     main.cpp
     mainwindow.cpp mainwindow.h
     canvaswidget.cpp canvaswidget.h
+    arduino_bridge.hpp
     cameracontroller.cpp cameracontroller.h
     gameengine.cpp gameengine.h
     levelloader.cpp levelloader.h

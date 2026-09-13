@@ -5,6 +5,7 @@
 */
 
 #include "canvaswidget.h"
+#include "arduino_bridge.hpp"
 #include "cameracontroller.h"
 
 // own
@@ -30,7 +31,8 @@
 CanvasWidget::CanvasWidget(QWidget *parent) :
     QQuickWidget(parent),
     m_provider(new KGameThemeProvider),
-    m_cameraController(new CameraController(this))
+    m_cameraController(new CameraController(this)),
+    m_arduinoBridge(new ArduinoBridge)
 {
     QQmlEngine *engine = this->engine();
 
@@ -40,6 +42,11 @@ CanvasWidget::CanvasWidget(QWidget *parent) :
 #else
     engine->rootContext()->setContextObject(new KLocalizedQmlContext(engine));
 #endif
+    engine->rootContext()->setContextProperty(QStringLiteral("arduinoBridge"), this);
+
+    if (!connectArduinoBridge()) {
+        qCInfo(KBREAKOUT_General) << "Arduino RouterBridge is unavailable";
+    }
 
     setResizeMode(SizeRootObjectToView);
 
@@ -69,7 +76,18 @@ CanvasWidget::CanvasWidget(QWidget *parent) :
 
 CanvasWidget::~CanvasWidget()
 {
+    delete m_arduinoBridge;
     delete m_provider;
+}
+
+bool CanvasWidget::connectArduinoBridge()
+{
+    return m_arduinoBridge->connect();
+}
+
+bool CanvasWidget::notify(const QString &method, int argument)
+{
+    return m_arduinoBridge->notify(method.toStdString(), argument);
 }
 
 void CanvasWidget::updateFireShortcut()
