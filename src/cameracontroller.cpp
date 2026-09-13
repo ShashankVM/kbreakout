@@ -61,7 +61,10 @@ std::optional<qreal> findMarkerPosition(const QImage &image)
             centerX += corner.x;
         }
         centerX /= corners[i].size();
-        return std::clamp(centerX / qMax(1, image.width() - 1), 0.0, 1.0);
+        qCDebug(KBREAKOUT_General) << "centerX: " << centerX << "image.width" << image.width() << "\n";
+        qCDebug(KBREAKOUT_General) << "centerX divided by image width " << centerX / image.width() << "\n";
+        // add 0.25 to centerX to avoid uncovered corners.
+        return (1.25* (centerX / image.width()));
     }
     return std::nullopt;
 }
@@ -172,7 +175,8 @@ void CameraController::processFrame(const QVideoFrame &frame)
             m_smoothedPosition = m_smoothedPosition < 0.0
                 ? position
                 : smoothingWeight * position + (1.0 - smoothingWeight) * m_smoothedPosition;
-            Q_EMIT positionChanged(std::clamp(m_smoothedPosition, 0.0, 1.0));
+            qCDebug(KBREAKOUT_General) << "position: " << position << "\n";
+            Q_EMIT positionChanged(std::clamp(position, 0.0, 1.0));
         }
         m_framePending = false;
     }, Qt::QueuedConnection);

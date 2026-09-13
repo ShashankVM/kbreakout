@@ -233,15 +233,13 @@ Item {
 
         var availableWidth = bgOverlay.width;
         var barX = (cameraPosition * availableWidth);
-        if (barX < availableWidth/2) barX = barX - bar.width;
         bar.moveTo(barX/m_scale);
         const numCols = 13;
         // round the colPos to a whole number since we are calculating LED column index in the matrix
-        var colPos = Math.round(cameraPosition * numCols);
-        // saturate maximum
-        if (colPos > (numCols - 1)) colPos = (numCols - 1);
-        // saturate minimum
-        if (colPos < 0) colPos = 0;
+        // Math.round function always rounds away from zero, so take care of it separately
+        var colPosRaw = cameraPosition * numCols;
+        var colPos = Math.round(colPosRaw);
+        if (colPosRaw <= 0.5) colPos = 0;
         // notify the colPos to the MCU
         arduinoBridge.notify("set_led_column", colPos);
     }
