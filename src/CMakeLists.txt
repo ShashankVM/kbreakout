@@ -5,6 +5,10 @@ ecm_setup_version(${RELEASE_SERVICE_VERSION}
 
 add_executable(kbreakout)
 
+target_compile_options(kbreakout PRIVATE
+  -fexceptions
+)
+
 target_sources(kbreakout PRIVATE
     main.cpp
     mainwindow.cpp mainwindow.h
