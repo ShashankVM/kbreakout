@@ -167,10 +167,6 @@ Item {
     }
 
     function reset() {
-        if (!Bridge.connect()) {
-            // print a debug message if not able to connect to MCU
-            // one connect call per game
-        }
         Logic.reset();
     }
 

@@ -19,4 +19,5 @@ sudo apt update && sudo apt install -y \
   libkf6iconthemes-dev \
   libkdegames6-dev \
   libkf6doctools-dev \
-  libopencv-dev
+  libopencv-dev \
+  libmsgpack-cxx-dev
