@@ -31,7 +31,6 @@ namespace
 constexpr int targetWidth = 480;
 constexpr int minimumFrameIntervalMs = 16;
 constexpr int markerId = 0;
-constexpr qreal smoothingWeight = 0.70;
 
 std::optional<qreal> findMarkerPosition(const QImage &image)
 {
@@ -172,9 +171,6 @@ void CameraController::processFrame(const QVideoFrame &frame)
         const std::optional<qreal> detectedPosition = findMarkerPosition(image);
         if (detectedPosition) {
             qreal position = m_mirror ? 1.0 - *detectedPosition : *detectedPosition;
-            m_smoothedPosition = m_smoothedPosition < 0.0
-                ? position
-                : smoothingWeight * position + (1.0 - smoothingWeight) * m_smoothedPosition;
             qCDebug(KBREAKOUT_General) << "position: " << position << "\n";
             Q_EMIT positionChanged(std::clamp(position, 0.0, 1.0));
         }

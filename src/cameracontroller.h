@@ -43,7 +43,6 @@ private:
     QObject *m_processor = nullptr;
     QElapsedTimer m_frameTimer;
     std::atomic_bool m_framePending = false;
-    qreal m_smoothedPosition = -1.0;
     bool m_mirror = false;
 };
 
